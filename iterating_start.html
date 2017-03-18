@@ -10,14 +10,21 @@
     	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
     	container.innerHTML = container.innerHTML + student;
     }
+
     function searchStudentsBySchool (elem) {
     	if (elem.school === "Franklin") {
     		return true;
     	}
     }
+
     function getPassingStudents (elem) {
     	return ((elem.midterm_score + elem.final_score)/2 > 65);
     }
+
+    function checkImprovement (elem) {
+    	return elem.final_score > elem.midterm_score; 
+    }
+
     window.addEventListener("load", function(e) {
     	var numStudentElem = document.getElementById("numstudents");
     	/* _.size to get number of elements */
@@ -34,7 +41,7 @@
     	var student = "<p>" + isFromFranklin.firstname + " " + isFromFranklin.lastname + ", Grade: " + isFromFranklin.grade + "</p>";
     	isFromFranklinContainer.innerHTML = isFromFranklinContainer.innerHTML + student;
 
-    	/* _.findWhere() return the first ZToreau student who is a junior */
+    	/* _.findWhere() return the first Toreau student who is a junior */
     	var isThoreau = _.findWhere(students, {school: "Thoreau", grade: 11});
     	var isThoreauContainer = document.getElementById("isThoreau");
     	var isThoreauStudent = "<p>" + isThoreau.firstname + " " + isThoreau.lastname + ", Grade: " + isThoreau.grade + "</p>";
@@ -55,6 +62,31 @@
 	    	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
 	    	passingStudentsContainer.innerHTML = passingStudentsContainer.innerHTML + student;
     	})
+
+    	/* _.where finds all the elements meet the standard */
+    	var allThoreauGrade11 = _.where(students, {school: "Thoreau", grade: 10});
+    	_.each(allThoreauGrade11, function (elem,indx,list) {
+	    	var allThoreauGrade11Container = document.getElementById("throeauGrade11");
+	    	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
+	    	allThoreauGrade11Container.innerHTML = allThoreauGrade11Container.innerHTML + student;
+    	})
+
+    	/* _.reject() to fill out failed students 
+    	* _.reject() is _.filter's complement
+    	*/
+    	var failedStudents = _.reject(students, getPassingStudents);
+    	_.each(failedStudents,function (elem,indx,list) {
+	    	var failedStudentsContainer = document.getElementById("failedStudents");
+	    	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
+	    	failedStudentsContainer.innerHTML = failedStudentsContainer.innerHTML + student;
+    	})
+
+    	/* _.every() to ensure that all of a set of criteria have been met */
+    	console.log(_.every(students, checkImprovement));
+    	/* _.some() to check if there's any element meets the criteria
+    	* _.some() and _.contains are different, b/c _.contains ckeck a value in an array.
+    	*/
+    	console.log(_.some(students, checkImprovement));
     });
     </script>
 </head>
@@ -71,5 +103,9 @@
 	<div id="isThoreau"></div>
 	<h1>Students who passed</h1>
 	<div id="passingStudents"></div>
+	<h1>Students who failed</h1>
+	<div id="failedStudents"></div>
+	<h1>Thoreau Grade 11</h1>
+	<div id="throeauGrade11"></div>
 </body>
 </html>
