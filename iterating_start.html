@@ -32,6 +32,19 @@
     function groupStudentsBySchool (elem) {
     	return elem.school;
     }
+
+    function countStudentsByGrade (elem) {
+    	if (elem.grade === 9) {
+    		return 'freshmen';
+    	}else if (elem.grade === 10) {
+    		return 'sophomores';
+    	}else if (elem.grade === 11) {
+    		return 'junior';
+    	}else if (elem.grade === 12) {
+    		return 'seniors';
+    	}
+    }
+
 var groupBySchool;
     window.addEventListener("load", function(e) {
     	var numStudentElem = document.getElementById("numstudents");
@@ -101,8 +114,7 @@ var groupBySchool;
     	})
 
     	/* grouping students by school */
-    	groupBySchool = _.groupBy(students, groupStudentsBySchool);
-    	console.log(groupBySchool);
+    	var groupBySchool = _.groupBy(students, groupStudentsBySchool);
 
     	/* for-in loop can only be used in object/map/hash.*/
     	for(var sch in groupBySchool){
@@ -114,6 +126,14 @@ var groupBySchool;
 	    		$('#groupBySchool').append(student);
     		})
     	}
+
+    	/* number of students in each grade */
+    	var countByGrade = _.countBy(students, countStudentsByGrade);
+    	for (var gr in countByGrade) {
+    		var grade = '<p style="font-weight:bold">' + gr + ': '+ countByGrade[gr] +' students</p>';
+    		$('#countByGrade').append(grade);
+    	}
+
     });
     </script>
 </head>
@@ -136,7 +156,9 @@ var groupBySchool;
 	<div id="throeauGrade11"></div>
 	<h1>Sort by Grade</h1>
 	<div id="sortByGrade"></div>
-	<h1>Group by School</h1>
+	<h1>School</h1>
 	<div id="groupBySchool"></div>
+	<h1>Grade</h1>
+	<div id="countByGrade"></div>
 </body>
 </html>
