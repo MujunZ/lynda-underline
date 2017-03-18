@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iterating Collections with Underscore</title>
+    <script type="text/javascript" src="../underscore-min.js"></script>
+    <script type="text/javascript" src="../SampleData.js"></script>
+    <script type="text/javascript">
+    function getStudentInfo (elem,indx,list) {
+    	var container = document.getElementById("container");
+    	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
+    	container.innerHTML = container.innerHTML + student;
+    }
+    function searchStudentsBySchool (elem) {
+    	if (elem.school === "Franklin") {
+    		return true;
+    	}
+    }
+    function getPassingStudents (elem) {
+    	return ((elem.midterm_score + elem.final_score)/2 > 65);
+    }
+    window.addEventListener("load", function(e) {
+    	var numStudentElem = document.getElementById("numstudents");
+    	/* _.size to get number of elements */
+    	numStudentElem.innerHTML = numStudentElem.innerHTML + _.size(students);
+
+    	/* _.each() to iterate over every element */
+    	_.each(students, getStudentInfo);
+
+
+    	/* -.find() the first student that goes to Franklin */
+    	var isFromFranklin = _.find(students,searchStudentsBySchool);
+
+    	var isFromFranklinContainer = document.getElementById("isFromFranklin");
+    	var student = "<p>" + isFromFranklin.firstname + " " + isFromFranklin.lastname + ", Grade: " + isFromFranklin.grade + "</p>";
+    	isFromFranklinContainer.innerHTML = isFromFranklinContainer.innerHTML + student;
+
+    	/* _.findWhere() return the first ZToreau student who is a junior */
+    	var isThoreau = _.findWhere(students, {school: "Thoreau", grade: 11});
+    	var isThoreauContainer = document.getElementById("isThoreau");
+    	var isThoreauStudent = "<p>" + isThoreau.firstname + " " + isThoreau.lastname + ", Grade: " + isThoreau.grade + "</p>";
+    	isThoreauContainer.innerHTML = isThoreauContainer.innerHTML + isThoreauStudent;
+
+    	/* _.pluck retrieves all the values for a given property name and _.contains searches a list of values for a value */
+    	// pass all the final_score to grades
+    	var grades = _.pluck(students, "final_score");
+    	// find the perfect final
+    	if(_.contains(grades,100))
+    		console.log("Found a perfect final score!");
+
+    	/* _.filter() to filt the elements in a certain way */
+    	var passingStudents = _.filter(students, getPassingStudents);
+    	/* use _.each() to write the content */
+    	_.each(passingStudents, function (elem,indx,list) {
+	    	var passingStudentsContainer = document.getElementById("passingStudents");
+	    	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
+	    	passingStudentsContainer.innerHTML = passingStudentsContainer.innerHTML + student;
+    	})
+    });
+    </script>
+</head>
+<body>
+	<h1>Iterating Collections with Underscore</h1>
+	<h2>Student Information:</h2>
+	<h3 id="numstudents">Number of Students: </h3>
+	<div id="container">
+	</div>
+	<h1>The following students are from Franklin</h1>
+	<div id="isFromFranklin">
+	</div>
+	<h1>The First Thoreau Student Who Is A Junior</h1>
+	<div id="isThoreau"></div>
+	<h1>Students who passed</h1>
+	<div id="passingStudents"></div>
+</body>
+</html>
