@@ -25,6 +25,14 @@
     	return elem.final_score > elem.midterm_score; 
     }
 
+    function sortStudentsByGrade (elem) {
+    	return elem.grade;
+    }
+
+    function groupStudentsBySchool (elem) {
+    	return elem.school;
+    }
+var groupBySchool;
     window.addEventListener("load", function(e) {
     	var numStudentElem = document.getElementById("numstudents");
     	/* _.size to get number of elements */
@@ -83,9 +91,29 @@
     	*/
     	console.log(_.some(students, checkImprovement));
 
-    	/* _.sortBy() by grade */
-    	// var sortByGrade = _.sortBy(students, sortStudentsByGrade);
+    	/* _.sortBy() by grade 
+    	*  if want to sort by the length of firstname, simply use elem.firstname.length in sortStudentsByGrade().
+    	*/
+    	var sortByGrade = _.sortBy(students, sortStudentsByGrade);
+    	_.each(sortByGrade, function (elem,indx,list) {
+	    	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
+	    	$('#sortByGrade').append(student);
+    	})
 
+    	/* grouping students by school */
+    	groupBySchool = _.groupBy(students, groupStudentsBySchool);
+    	console.log(groupBySchool);
+
+    	/* for-in loop can only be used in object/map/hash.*/
+    	for(var sch in groupBySchool){
+    		var school = '<p style="font-weight:bold">Students that go to ' + sch + '</p>';
+    		$('#groupBySchool').append(school);
+    		/* see the difference between sch and groupBySchool[sch] */
+    		_.each(groupBySchool[sch], function (elem,indx,list) {
+	    	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
+	    		$('#groupBySchool').append(student);
+    		})
+    	}
     });
     </script>
 </head>
@@ -106,5 +134,9 @@
 	<div id="failedStudents"></div>
 	<h1>Thoreau Grade 11</h1>
 	<div id="throeauGrade11"></div>
+	<h1>Sort by Grade</h1>
+	<div id="sortByGrade"></div>
+	<h1>Group by School</h1>
+	<div id="groupBySchool"></div>
 </body>
 </html>
