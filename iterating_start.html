@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>Iterating Collections with Underscore</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="../underscore-min.js"></script>
     <script type="text/javascript" src="../SampleData.js"></script>
     <script type="text/javascript">
     function getStudentInfo (elem,indx,list) {
-    	var container = document.getElementById("container");
     	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
-    	container.innerHTML = container.innerHTML + student;
+    	$('#container').append(student);
     }
 
     function searchStudentsBySchool (elem) {
@@ -37,15 +37,13 @@
     	/* -.find() the first student that goes to Franklin */
     	var isFromFranklin = _.find(students,searchStudentsBySchool);
 
-    	var isFromFranklinContainer = document.getElementById("isFromFranklin");
     	var student = "<p>" + isFromFranklin.firstname + " " + isFromFranklin.lastname + ", Grade: " + isFromFranklin.grade + "</p>";
-    	isFromFranklinContainer.innerHTML = isFromFranklinContainer.innerHTML + student;
+    	$('#isFromFranklin').append(student);
 
     	/* _.findWhere() return the first Toreau student who is a junior */
     	var isThoreau = _.findWhere(students, {school: "Thoreau", grade: 11});
-    	var isThoreauContainer = document.getElementById("isThoreau");
     	var isThoreauStudent = "<p>" + isThoreau.firstname + " " + isThoreau.lastname + ", Grade: " + isThoreau.grade + "</p>";
-    	isThoreauContainer.innerHTML = isThoreauContainer.innerHTML + isThoreauStudent;
+    	$('#isThoreau').append(isThoreauStudent);
 
     	/* _.pluck retrieves all the values for a given property name and _.contains searches a list of values for a value */
     	// pass all the final_score to grades
@@ -58,17 +56,15 @@
     	var passingStudents = _.filter(students, getPassingStudents);
     	/* use _.each() to write the content */
     	_.each(passingStudents, function (elem,indx,list) {
-	    	var passingStudentsContainer = document.getElementById("passingStudents");
 	    	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
-	    	passingStudentsContainer.innerHTML = passingStudentsContainer.innerHTML + student;
+	    	$('#passingStudents').append(student);
     	})
 
     	/* _.where finds all the elements meet the standard */
     	var allThoreauGrade11 = _.where(students, {school: "Thoreau", grade: 10});
     	_.each(allThoreauGrade11, function (elem,indx,list) {
-	    	var allThoreauGrade11Container = document.getElementById("throeauGrade11");
 	    	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
-	    	allThoreauGrade11Container.innerHTML = allThoreauGrade11Container.innerHTML + student;
+	    	$('#throeauGrade11').append(student);
     	})
 
     	/* _.reject() to fill out failed students 
@@ -76,9 +72,8 @@
     	*/
     	var failedStudents = _.reject(students, getPassingStudents);
     	_.each(failedStudents,function (elem,indx,list) {
-	    	var failedStudentsContainer = document.getElementById("failedStudents");
 	    	var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade + "</p>";
-	    	failedStudentsContainer.innerHTML = failedStudentsContainer.innerHTML + student;
+	    	$('#failedStudents').append(student);
     	})
 
     	/* _.every() to ensure that all of a set of criteria have been met */
@@ -87,6 +82,10 @@
     	* _.some() and _.contains are different, b/c _.contains ckeck a value in an array.
     	*/
     	console.log(_.some(students, checkImprovement));
+
+    	/* _.sortBy() by grade */
+    	// var sortByGrade = _.sortBy(students, sortStudentsByGrade);
+
     });
     </script>
 </head>
