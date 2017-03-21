@@ -166,6 +166,19 @@
         /* _.map creates a new array based upon each items in the list */
         var finalGrades = _.map(students, assignGrades);
         listGrade(finalGrades);
+
+        /* Extracting Array Data */
+        // pluck midterm scores
+        var midTermScores = _.pluck(students,"midterm_score");
+        midTermScores.sort();
+
+        // _.first() and _.last()
+        var firstAndLast = "<h1>First and Last</h1><p id = 'firstAndLast'>First score is " + _.first(midTermScores) + ".</p><p>Last score is " + _.last(midTermScores) + ".</p>";
+        $('body').append(firstAndLast);
+
+        // _.initial() and _.rest() is very similar to _.first() and _.rest()
+        var initialAndRest = "<h1>Initial and Rest</h1><p id = 'initialAndRest'>Initial scores, minus the last 3 : " + _.initial(midTermScores,3) + ".</p><p> From the 4th score : " + _.rest(midTermScores,3) + ".</p>";
+        $('body').append(initialAndRest);
     });
     </script>
 </head>
