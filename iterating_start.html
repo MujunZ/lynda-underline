@@ -238,6 +238,37 @@
 		// _.clone() is to copy an object as a shallow copy, which means they are copied by reference
 		var cloneStudent = _.clone(students[3]);
 		$('body').append('<h2>Clone Student[3]</h2><p>'+ cloneStudent.firstname + ' ' + cloneStudent.lastname + ', Midterm: ' + cloneStudent.midterm_score + ' Final: ' + cloneStudent.final_score + '</p>')
+
+		// _.uniqueID() to generate IDs
+		$('body').append('<h1>Miscellaneous</h1><h2>_.uniqueID to generate IDs</h2>');
+		var sID = _.uniqueId();
+		$('body').append('<p>ID with no prefix: '+ sID +'</p>');
+			// the prefix can be any string
+		var sID = _.uniqueId('pre_');
+		$('body').append('<p>ID with a prefix: '+ sID +'</p>')
+
+		// _.random() to generate random numbers 
+		var rand25 = _.random(25); // 1 value means between 0 and the value
+		$('body').append('<h2>Random</h2><p>Random 0 - 25: '+ rand25 +'</p>');
+
+		var rand100To150 = _.random(100,150); // 2 values means between 2 values
+		$('body').append('<p>Random between 100 - 150: '+ rand100To150 +'</p>');
+
+		// _.times() to execute a counter loop
+		$('body').append('<h2> _.times() </h2>')
+		_.times(5,function (n) {
+			$('body').append('<p>Time: ' + (n+1) + '</p>');
+		})
+
+		// _.mixin() to extend Underscore functions
+		$('body').append('<h2> _.mixin() capitalize </h2>');
+		_.mixin({
+			capitalize: function(string){
+				return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
+			}
+		});
+		$('body').append('<p>'+ _('cApiTAlize').capitalize()+ '</p>');
+		$('body').append('<p>' + _.capitalize('capiTAlIZE')+ '</p>');
     });
     </script>
 </head>
