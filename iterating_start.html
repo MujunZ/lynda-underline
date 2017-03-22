@@ -202,6 +202,42 @@
 		// _.difference() to what's common to both
 		var diffA1A3 = '<h2> Difference between Array1 and Array3</h2><p>Array1 U Array3 = ' + _.difference(array1,array3) + '</p>';
 		$('body').append(diffA1A3);
+
+		// _.keys() to get all the keys from an object
+		var keys = '<h2>Keys in students[0]</h2><p>' + _.keys(students[0]) + '</p>';
+		$('body').append(keys);
+
+		// _.values() to get all the values from an object
+		var values = '<h2>Values in students[0]</h2><p>' + _.values(students[0]) + '</p>';
+		$('body').append(values);
+
+		// _.pick() to get specific properties. Difference between pick and pluck is pick can get severl properties.
+		var subsetStudent =_.pick(students[0],'lastname','grade');
+		$('body').append('_.pick() student[0]\'s lastname and grade: ' +subsetStudent.lastname + ' ' + subsetStudent.grade);
+
+		// _.omit() to filter out properties. like _.without()
+		var filterStudent = _.omit(students[0],'midterm_score','final_score');
+		$('body').append('<h2>Omit midterm and filnal scores</h2><p>Keys: '+ _.keys(filterStudent) +'</p><p>Values: '+ _.values(filterStudent) +'</p>')
+
+		// _.extand() each student object with a new property, the average score
+		_.each(students,function (elem, indx, list) {
+			var avg = (elem.midterm_score + elem.final_score)/2;
+			_.extend(elem, {'average_score': avg});
+		});
+		$('body').append('<h2>Extend average score</h2>');
+		_.each(students, function (elem) {
+			var student = "<p>" + elem.firstname + " " + elem.lastname + ", Grade: " + elem.grade +'<b> Avg: </b>'+ elem.average_score + "</p>";
+			$('body').append(student)
+		});
+
+		// _.defaults() is to assign a defualt value to an object
+		var defaultValues = {final_score: 0, midterm_score: 0, grade: 9};
+		var newStudent = {firstname: 'John', lastname: 'Doe'};
+		_.defaults(newStudent, defaultValues);
+		$('body').append('<h2>Set Defualt Values</h2><p>'+ newStudent.firstname + ' ' + newStudent.lastname + ', Midterm: ' + newStudent.midterm_score + ' Final: ' + newStudent.final_score + '</p>')
+		// _.clone() is to copy an object as a shallow copy, which means they are copied by reference
+		var cloneStudent = _.clone(students[3]);
+		$('body').append('<h2>Clone Student[3]</h2><p>'+ cloneStudent.firstname + ' ' + cloneStudent.lastname + ', Midterm: ' + cloneStudent.midterm_score + ' Final: ' + cloneStudent.final_score + '</p>')
     });
     </script>
 </head>
